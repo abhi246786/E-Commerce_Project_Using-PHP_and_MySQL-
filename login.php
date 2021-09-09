@@ -1,7 +1,8 @@
 <?php include ( "inc/connect.inc.php" ); ?>
-<?php session_start(); ?>
+
 <?php
 ob_start();
+session_start();
 if (!isset($_SESSION['user_login'])) {
 }
 else {
@@ -100,7 +101,7 @@ if(isset($_POST['activate'])){
 		<title>Welcome to ebuybd online shop</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
-	<body class="home-welcome-text" style="background-image: url(image/homebackgrndimg1.png);">
+	<body class="home-welcome-text" style="background-image: url(image/homebackgrndimg1.jpg);">
 		<div class="homepageheader">
 			<div class="signinButton loginButton">
 				<div class="uiloginbutton signinButton loginButton" style="margin-right: 40px;">
@@ -112,7 +113,7 @@ if(isset($_POST['activate'])){
 			</div>
 			<div style="float: left; margin: 5px 0px 0px 23px;">
 				<a href="index.php">
-					<img style=" height: 75px; width: 130px;" src="image/ebuybdlogo.png">
+					<img style=" height: 75px; width: 130px;" src="image/cart.png">
 				</a>
 			</div>
 			<div class="">

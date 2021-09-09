@@ -33,11 +33,11 @@ $search_value = "";
 <!DOCTYPE html>
 <html>
 <head>
-	<title>SAREE</title>
+	<title>Noodles&Canned</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body style="background-image: url(image/homebackgrndimg1.png);">
+<body style="background-image: url(image/homebackgrndimg1.jpg);">
 	<div class="homepageheader">
 			<div class="signinButton loginButton">
 				<div class="uiloginbutton signinButton loginButton" style="margin-right: 40px;">
@@ -64,7 +64,7 @@ $search_value = "";
 			</div>
 			<div style="float: left; margin: 5px 0px 0px 23px;">
 				<a href="index.php">
-					<img style=" height: 75px; width: 130px;" src="image/ebuybdlogo.png">
+					<img style=" height: 75px; width: 130px;" src="image/cart.png">
 				</a>
 			</div>
 			<div id="srcheader">
@@ -76,37 +76,28 @@ $search_value = "";
 			<div class="srcclear"></div>
 			</div>
 		</div>
-	<div class="categolis">
-		<table>
-			<tr>
-				<th>
-					<a href="women/saree.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Saree</a>
-				</th>
-				<th><a href="women/ornament.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Ornament</a></th>
-				<th><a href="women/watch.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Watch</a></th>
-				<th><a href="women/perfume.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Perfume</a></th>
-				<th><a href="women/hijab.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Hijab</a></th>
-				<th><a href="women/tshirt.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">T-Shirt</a></th>
-				<th><a href="women/footwear.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">FootWear</a></th>
-				<th><a href="women/toilatry.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Toilatry</a></th>
-			</tr>
-		</table>
-	</div>
+		<div class="categolis">
+			<table>
+				<tr>
+					<th><?php echo '<a href="mycart.php?uid='.$user.'" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #fff;border-radius: 12px;">My Cart</a>'; ?></th>
+					<th>
+						<?php echo '<a href="profile.php?uid='.$user.'" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">My Orders</a>'; ?>
+					</th>
+					<th>
+						<?php echo '<a href="my_delivery.php?uid='.$user.'" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #fff;border-radius: 12px;">MyDeliveryHistory</a>'; ?>
+					</th>
+					<th><?php echo '<a href="settings.php?uid='.$user.'" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #fff;border-radius: 12px;">Settings</a>'; ?></th>
+					
+
+				</tr>
+			</table>
+		</div>
 	<div style="margin-top: 20px;">
 		<div style="width: 900px; margin: 0 auto;">
 		
 			<ul>
-				<li style="float: left;">
-					<div class="settingsleftcontent">
-						<ul>
-							<ul>
-							<li><?php echo '<a href="profile.php?uid='.$user.'" style=" background-color: #169e8f; border-radius: 4px; color: #fff;" >My Orders</a>'; ?></li>
-							<li><?php echo '<a href="settings.php?uid='.$user.'" >Settings</a>'; ?></li>
-						</ul>
-						</ul>
-					</div>
-				</li>
-				<li style="float: right; background-color: #fff;">
+				
+				<li style=" background-color: #fff;">
 					<div>
 						<div>
 							<table class="rightsidemenu">
@@ -151,7 +142,7 @@ $search_value = "";
 									<th><?php echo $ddate; ?></th>
 									<th><?php echo $oplace; ?></th>
 									<th><?php echo $dstatus; ?></th>
-									<th><?php echo '<div class="home-prodlist-img"><a href="'.$category.'/view_product.php?pid='.$pId.'">
+									<th><?php echo '<div class="home-prodlist-img"><a href="OurProducts/view_product.php?pid='.$pId.'">
 													<img src="image/product/'.$item.'/'.$picture.'" class="home-prodlist-imgi" style="height: 75px; width: 75px;">
 													</a>
 												</div>' ?></th>
