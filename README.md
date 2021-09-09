@@ -4,7 +4,7 @@
 Hello friends, This is my first full e-commerce project. This is free. Anybody can use and moderate this project.
 
 ### Youtube
-Youtube preview link: https://www.youtube.com/watch?v=aYV4DOPtp3Y
+Youtube preview link: https://www.youtube.com/watch?v=ek46jpM2YMc
 
 ## Platform Used
 ### Front-End
