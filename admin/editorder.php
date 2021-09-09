@@ -24,6 +24,8 @@ else {
 	$result = mysql_query("SELECT * FROM admin WHERE id='$user'");
 	$get_user_email = mysql_fetch_assoc($result);
 		$uname_db = $get_user_email['firstName'];
+		$type_db=$get_user_email['type'];
+		$utype_db=$get_user_email['type'];
 
 
 	$result1 = mysql_query("SELECT * FROM orders WHERE id='$eoid'");
@@ -51,6 +53,7 @@ $getposts = mysql_query("SELECT * FROM products WHERE id ='$eopid'") or die(mysq
 						$id = $row['id'];
 						$pName = $row['pName'];
 						$price = $row['price'];
+						$piece=$row['piece'];
 						$description = $row['description'];
 						$picture = $row['picture'];
 						$item = $row['item'];
@@ -118,7 +121,7 @@ $search_value = "";
 				<div class="uiloginbutton signinButton loginButton">
 					<?php 
 						if ($user!="") {
-							echo '<a style="text-decoration: none;color: #fff;" href="login.php">Hi '.$uname_db.'</a>';
+							echo '<a style="text-decoration: none;color: #fff;" href="login.php">Hi '.$uname_db.'</br><span style="color: #de2a74">'.$utype_db.'</span></a>';
 						}
 						else {
 							echo '<a style="text-decoration: none;color: #fff;" href="login.php">LOG IN</a>';
@@ -128,7 +131,7 @@ $search_value = "";
 			</div>
 			<div style="float: left; margin: 5px 0px 0px 23px;">
 				<a href="index.php">
-					<img style=" height: 75px; width: 130px;" src="../image/ebuybdlogo.png">
+					<img style=" height: 75px; width: 130px;" src="../image/cart.png">
 				</a>
 			</div>
 			<div id="srcheader">
@@ -144,12 +147,18 @@ $search_value = "";
 			<table>
 				<tr>
 					<th>
-						<a href="index.php" style="text-decoration: none;color: #fff;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Home</a>
+						<a href="index.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Home</a>
 					</th>
-					<th><a href="addproduct.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Add Product</a></th>
-					<th><a href="newadmin.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">New Admin</a></th>
-					<th><a href="allproducts.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">All Products</a></th>
-					<th><a href="orders.php" style="text-decoration: none;color: #ddd;padding: 4px 12px;background-color: #24bfae;border-radius: 12px;">Orders</a></th>
+					<th><a href="addproduct.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Add Product</a></th>
+					<th><a href="orders.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #c7587e;border-radius: 12px;">Orders</a></th>
+					<th><a href="DeliveryRecords.php" style="text-decoration: none;color:#040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">DeliveryRecords</a></th>
+					<?php 
+						if($utype_db == 'admin'){
+							echo '<th><a href="report.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Reports</a></th>
+								<th><a href="newadmin.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #24bfae;;border-radius: 12px;">New Admin</a></th>';
+						}
+					?>
+
 				</tr>
 			</table>
 		</div>
@@ -196,10 +205,10 @@ $search_value = "";
 										</td>
 									</div>
 									<div>
-										<input name="order" class="uisignupbutton signupbutton" type="submit" value="Confirm Change">
+										<input name="order" class="uisignupbutton signupbutton" type="submit" style="color: #169E8F" value="Confirm Change">
 									</div>
 									<div>
-										<input name="delorder" class="uisignupbutton signupbutton" type="submit" value="Delete Order">
+										<input name="delorder" class="uisignupbutton signupbutton" type="submit" style="color: #169E8F" value="Delete Order">
 									</div>
 									<div class="signup_error_msg"> '; ?>
 										<?php 

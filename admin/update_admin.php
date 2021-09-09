@@ -12,9 +12,11 @@ else {
 		$get_user_email = mysql_fetch_assoc($result);
 			$uname_db = $get_user_email['firstName'];
 			$utype_db=$get_user_email['type'];
-			if($utype_db == 'staff'){
-				header("location: login.php");
-			}
+			$ulast_name = $get_user_email['lastName'];
+			$email = $get_user_email['email'];
+			$mobile = $get_user_email['mobile'];
+			$address = $get_user_email['address'];
+			
 }
 if (isset($_POST['signup'])) {
 //declere veriable
@@ -22,6 +24,9 @@ $u_fname = $_POST['first_name'];
 $u_lname = $_POST['last_name'];
 $u_email = $_POST['email'];
 $u_mobile = $_POST['mobile'];
+if($utype_db == 'admin'){
+	$u_admin_type = $_POST['admintype'];
+}
 $u_address = $_POST['signupaddress'];
 //triming name
 $_POST['first_name'] = trim($_POST['first_name']);
@@ -53,9 +58,11 @@ $_POST['last_name'] = trim($_POST['last_name']);
 			throw new Exception('Password can not be empty');
 			
 		}
-		if(empty($_POST['admintype'])) {
+		if($utype_db =='admin'){
+			if(empty($_POST['admintype'])) {
 			throw new Exception('Admin Type can not be empty');
 			
+		}
 		}
 		if(empty($_POST['signupaddress'])) {
 			throw new Exception('Address can not be empty');
@@ -69,43 +76,37 @@ $_POST['last_name'] = trim($_POST['last_name']);
 		$email_check = mysql_num_rows($e_check);
 		if (strlen($_POST['first_name']) >2 && strlen($_POST['first_name']) <16 ) {
 			if ($check == 0 ) {
-				if ($email_check == 0) {
-					if (strlen($_POST['password']) >4 ) {
-						$d = date("Y-m-d"); //Year - Month - Day
-						$_POST['first_name'] = ucwords($_POST['first_name']);
-						$_POST['last_name'] = ucwords($_POST['last_name']);
-						$_POST['password'] = md5($_POST['password']);
-						$confirmCode   = substr( rand() * 900000 + 100000, 0, 6 );
-						// send email
-						$msg = "
-						Assalamu Alaikum...
-						
-						Your activation code: ".$confirmCode."
-						Signup email: ".$_POST['email']."
-						
-						";
-						//if (@mail($_POST['email'],"eBuyBD Activation Code",$msg, "From:eBuyBD <no-reply@ebuybd.xyz>")) {
-							
-						$result = mysql_query("INSERT INTO admin (firstName,lastName,email,mobile,address,password,type,confirmCode) VALUES ('$_POST[first_name]','$_POST[last_name]','$_POST[email]','$_POST[mobile]','$_POST[signupaddress]','$_POST[password]','$_POST[admintype]','$confirmCode')");
-						
-						//success message
-						$success_message = '
-						<div class="signupform_content"><h2><font face="bookman">Admin Registration Successfull!</font></h2>
-						<div class="signupform_text" style="font-size: 18px; text-align: center;">
-						<font face="bookman">
-							Email: '.$u_email.'<br>
-							Account Successfully Created. <br>
-						</font></div></div>';
-						//}else {
-						//	throw new Exception('Email is not valid!');
-						//}
-						
-						
-					}else {
-						throw new Exception('Password must be 5 or more then 5 characters!');
+				if (strlen($_POST['password']) >4 ) {
+					$d = date("Y-m-d"); //Year - Month - Day
+					$_POST['first_name'] = ucwords($_POST['first_name']);
+					$_POST['last_name'] = ucwords($_POST['last_name']);
+					$_POST['password'] = md5($_POST['password']);
+					$confirmCode   = substr( rand() * 900000 + 100000, 0, 6 );
+					// send email
+					
+					//if (@mail($_POST['email'],"eBuyBD Activation Code",$msg, "From:eBuyBD <no-reply@ebuybd.xyz>")) {
+					if($utype_db == 'admin'){
+						$result = mysql_query("UPDATE admin SET firstName='$_POST[first_name]', lastName='$_POST[last_name]', email='$u_email', mobile='$u_mobile', address='$u_address', password='$_POST[password]', type='$u_admin_type' WHERE id='$user'");
+					}else{
+						$result = mysql_query("UPDATE admin SET firstName='$_POST[first_name]', lastName='$_POST[last_name]', email='$u_email', mobile='$u_mobile', address='$u_address', password='$_POST[password]' WHERE id='$user'");
 					}
+					
+					
+					//success message
+					$success_message = '
+					<div class="signupform_content"><h2><font face="bookman">Admin Update Successfull!</font></h2>
+					<div class="signupform_text" style="font-size: 18px; text-align: center;">
+					<font face="bookman">
+						Email: '.$u_email.'<br>
+						Account Successfully Updated. <br>
+					</font></div></div>';
+					//}else {
+					//	throw new Exception('Email is not valid!');
+					//}
+					
+					
 				}else {
-					throw new Exception('Email already taken!');
+					throw new Exception('Password must be 5 or more then 5 characters!');
 				}
 			}else {
 				throw new Exception('Username already taken!');
@@ -176,7 +177,7 @@ $search_value = "";
 					<?php 
 						if($utype_db == 'admin'){
 							echo '<th><a href="report.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Reports</a></th>
-								<th><a href="newadmin.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #24bfae;;border-radius: 12px;">New Admin</a></th>';
+								<th><a href="newadmin.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;;border-radius: 12px;">New Admin</a></th>';
 						}
 					?>
 
@@ -192,42 +193,43 @@ $search_value = "";
 							<div>
 								<div>
 									<div class="signupform_content">
-										<h2>New Admin Form!</h2>
+										<h2>Update Admin</h2>
 										<div class="signupform_text"></div>
 										<div>
 											<form action="" method="POST" class="registration">
 												<div class="signup_form">
 													<div>
 														<td >
-															<input name="first_name" id="first_name" placeholder="First Name" required="required" class="first_name signupbox" type="text" size="30" value="" >
+															<input name="first_name" id="first_name" placeholder="First Name" required="required" class="first_name signupbox" type="text" size="30" value="'.$uname_db.'" >
 														</td>
 													</div>
 													<div>
 														<td >
-															<input name="last_name" id="last_name" placeholder="Last Name" required="required" class="last_name signupbox" type="text" size="30" value="" >
+															<input name="last_name" id="last_name" placeholder="Last Name" required="required" class="last_name signupbox" type="text" size="30" value="'.$ulast_name.'" >
 														</td>
 													</div>
 													<div>
 														<td>
-															<input name="email" placeholder="Enter Your Email" required="required" class="email signupbox" type="email" size="30" value="">
+															<input name="email" placeholder="Enter Your Email" required="required" class="email signupbox" type="email" size="30" value="'.$email.'">
 													</td>
 														</div>
 													<div>
 														<td>
-															<input name="mobile" placeholder="Enter Your Mobile" required="required" class="email signupbox" type="text" size="30" value="">
+															<input name="mobile" placeholder="Enter Your Mobile" required="required" class="email signupbox" type="text" size="30" value="'.$mobile.'">
 														</td>
 													</div>
 													<div>
 														<td>
-															<input name="signupaddress" placeholder="Write Your Full Address" required="required" class="email signupbox" type="text" size="30" value="">
+															<input name="signupaddress" placeholder="Write Your Full Address" required="required" class="email signupbox" type="text" size="30" value="'.$address.'">
 														</td>
 													</div>
 													<div>
 														<td>
 															<input name="password" id="password-1" required="required"  placeholder="Enter New Password" class="password signupbox " type="password" size="30" value="">
 														</td>
-													</div>
-													<div>
+													</div>';
+													if($utype_db == 'admin'){
+														echo '<div>
 														<td>
 															<select name="admintype" required="required" style=" font-size: 20px;
 														font-style: italic;margin-bottom: 3px;margin-top: 0px;padding: 14px;line-height: 25px;border-radius: 4px;border: 1px solid #169E8F;color: #169E8F;margin-left: 0;width: 300px;background-color: transparent;" class="">
@@ -236,9 +238,11 @@ $search_value = "";
 																
 															</select>
 														</td>
-													</div>
-													<div>
-														<input name="signup" class="uisignupbutton signupbutton" type="submit" value="Add Admin!">
+													</div>';
+													}
+													
+													 echo ' <div>
+														<input name="signup" class="uisignupbutton signupbutton" type="submit" value="Update Admin">
 													</div>
 													<div class="signup_error_msg">
 														<?php 

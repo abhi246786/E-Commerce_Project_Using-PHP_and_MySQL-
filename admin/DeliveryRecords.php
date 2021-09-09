@@ -67,8 +67,8 @@ else {
 					</th>
 					<th><a href="addproduct.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Add Product</a></th>
 					
-					<th><a href="orders.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #24bfae;border-radius: 12px;">Orders</a></th>
-				<th><a href="DeliveryRecords.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">DeliveryRecords</a></th>
+					<th><a href="orders.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Orders</a></th>
+				<th><a href="DeliveryRecords.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #24bfae;border-radius: 12px;">DeliveryRecords</a></th>
 					<?php 
 						if($utype_db == 'admin'){
 							echo '<th><a href="report.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Reports</a></th>
@@ -82,28 +82,30 @@ else {
 		<div>
 			<table class="rightsidemenu">
 				<tr style="font-weight: bold;" colspan="10" bgcolor="#4DB849">
-					<th>Id</th>
-					<th>User Id</th>
-					<th>Product Id</th>
-					<th>Q*P=T</th>
-					<th>Order Place</th>
-					<th>Mobile</th>
-					<th>Order Status</th>
-					<th>Order Date</th>
-					<th>Delevery Date</th>
-					<th>User Name</th>
-					<th>User Mobile</th>
-					<th>User Email</th>
-					<th>Edit</th>
+					
+					<th>Product Name</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Payent</th>
+					<th>Date of Delivery</th>
+					<th>Type of Delivery</th>
+					<th>Delevery Address</th>
 				</tr>
 				<tr>
 					<?php include ( "../inc/connect.inc.php");
-					$query = "SELECT * FROM orders ORDER BY id DESC";
+					$query = "SELECT * FROM orders WHERE dstatus='Yes' ORDER BY id DESC";
 					$run = mysql_query($query);
 					while ($row=mysql_fetch_assoc($run)) {
 						$oid = $row['id'];
 						$ouid = $row['uid'];
 						$opid = $row['pid'];
+						$deliv = $row['delivery'];
+						//getting product info
+						$query3 = "SELECT * FROM products WHERE id='$opid'";
+						$run3 = mysql_query($query3);
+						$row3=mysql_fetch_assoc($run3);
+						$pname = $row3['pName'];
+
 						$oquantity = $row['quantity'];
 						$oplace = $row['oplace'];
 						$omobile = $row['mobile'];
@@ -115,6 +117,7 @@ else {
 						$run1 = mysql_query($query1);
 						$row1=mysql_fetch_assoc($run1);
 						$ofname = $row1['firstName'];
+						$olname = $row1['lastName'];
 						$oumobile = $row1['mobile'];
 						$ouemail = $row1['email'];
 
@@ -129,23 +132,15 @@ else {
 
 					
 					 ?>
-					<th><?php echo $oid; ?></th>
-					<th><?php echo $ouid; ?></th>
-					<th><?php echo $opid; ?></th>
-					<th><?php echo ''.$oquantity.' * '.$oprice.' = '.$oquantity*$oprice.''; ?></th>
-					<th><?php echo $oplace; ?></th>
-					<th><?php echo $omobile; ?></th>
-					<th><?php echo $odstatus; ?></th>
-					<th><?php echo $odate; ?></th>
-					<th><?php echo $ddate; ?></th>
-
+					<th><?php echo $pname; ?></th>
 					<th><?php echo $ofname; ?></th>
-					<th><?php echo $oumobile; ?></th>
-					<th><?php echo $ouemail; ?></th>
-					<th><?php echo '<div class="home-prodlist-img"><a href="editorder.php?eoid='.$oid.'">
-									<img src="../image/product/'.$opitem.'/'.$oppicture.'" class="home-prodlist-imgi" style="height: 75px; width: 75px;">
-									</a>
-								</div>' ?></th>
+					<th><?php echo $olname; ?></th>
+					<th><?php echo ''.$oquantity.' * '.$oprice.' = '.$oquantity*$oprice.''; ?></th>
+					<th><?php echo $ddate; ?></th>
+					<th><?php echo $deliv; ?></th>
+					<th><?php echo $oplace; ?></th>
+
+					
 				</tr>
 				<?php } ?>
 			</table>
